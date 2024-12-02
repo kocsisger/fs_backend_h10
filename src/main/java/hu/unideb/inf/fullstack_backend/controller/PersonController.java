@@ -28,4 +28,18 @@ public class PersonController {
         personRepository.deleteById(id);
     }
 
+    @GetMapping("/person/{id}")
+    public Person getPerson(@PathVariable long id){
+        if (personRepository.findById(id).isEmpty())
+            return new Person();
+        return personRepository.findById(id).get();
+    }
+
+    @PutMapping("/person/{id}")
+    public void updatePerson(@RequestBody Person person, @PathVariable long id){
+        if (personRepository.findById(id).isPresent())
+            person.setId(id);
+        personRepository.save(person);
+    }
+
 }
